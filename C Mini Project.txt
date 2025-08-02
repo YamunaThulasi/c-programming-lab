@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <string.h>
+
+#define SIZE 50
+
+struct Student {
+    char name[30];
+    int roll;
+    float marks;
+};
+
+struct Student s[SIZE];
+int total = 0;
+
+// Add student details
+void addStudent() {
+    printf("Enter Student Name: ");
+    scanf(" %[^\n]", s[total].name);
+    printf("Enter Roll Number: ");
+    scanf("%d", &s[total].roll);
+    printf("Enter Marks: ");
+    scanf("%f", &s[total].marks);
+    total++;
+    printf("Student Added!\n");
+}
+
+// Display all students
+void showAll() {
+    printf("\n--- All Students ---\n");
+    for (int i = 0; i < total; i++) {
+        printf("Name: %s\n", s[i].name);
+        printf("Roll: %d\n", s[i].roll);
+        printf("Marks: %.2f\n", s[i].marks);
+        printf("------------------\n");
+    }
+}
+
+// Search student by roll number
+void searchStudent() {
+    int r, found = 0;
+    printf("Enter roll to search: ");
+    scanf("%d", &r);
+    for (int i = 0; i < total; i++) {
+        if (s[i].roll == r) {
+            printf("Student Found:\n");
+            printf("Name: %s\n", s[i].name);
+            printf("Marks: %.2f\n", s[i].marks);
+            found = 1;
+            break;
+        }
+    }
+    if (!found) {
+        printf("Student Not Found.\n");
+    }
+}
+
+// Show average and topper
+void stats() {
+    if (total == 0) {
+        printf("No records.\n");
+        return;
+    }
+    float sum = 0;
+    int top = 0;
+    for (int i = 0; i < total; i++) {
+        sum += s[i].marks;
+        if (s[i].marks > s[top].marks) {
+            top = i;
+        }
+    }
+    printf("Average Marks: %.2f\n", sum / total);
+    printf("Topper: %s (%.2f marks)\n", s[top].name, s[top].marks);
+}
+
+// Main function
+int main() {
+    int ch;
+    do {
+        printf("\n---- SmartStudent Menu ----\n");
+        printf("1. Add Student\n");
+        printf("2. Show All Students\n");
+        printf("3. Search Student\n");
+        printf("4. Show Average & Topper\n");
+        printf("5. Exit\n");
+        printf("Choose option: ");
+        scanf("%d", &ch);
+
+        switch (ch) {
+            case 1: addStudent(); break;
+            case 2: showAll(); break;
+            case 3: searchStudent(); break;
+            case 4: stats(); break;
+            case 5: printf("Thank You!\n"); break;
+            default: printf("Invalid Option\n");
+        }
+
+    } while (ch != 5);
+
+    return 0;
+}
